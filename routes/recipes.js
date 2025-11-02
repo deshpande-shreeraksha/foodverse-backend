@@ -1,9 +1,9 @@
-const express = require('express');
-const axios = require('axios');
-const router = express.Router();
+// api/recipes.js
+import axios from 'axios';
 
-router.get('/search', async (req, res) => {
+export default async function handler(req, res) {
   const { ingredients } = req.query;
+
   try {
     const response = await axios.get(
       'https://api.spoonacular.com/recipes/findByIngredients',
@@ -15,10 +15,9 @@ router.get('/search', async (req, res) => {
         },
       }
     );
-    res.json(response.data);
+    res.status(200).json(response.data);
   } catch (error) {
+    console.error('Spoonacular error:', error.message);
     res.status(500).json({ error: 'Failed to fetch recipes' });
   }
-});
-
-module.exports = router;
+}
