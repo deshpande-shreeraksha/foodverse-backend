@@ -1,6 +1,9 @@
+import express from 'express';
 import axios from 'axios';
 
-export default async function handler(req, res) {
+const router = express.Router();
+
+router.get('/', async (req, res) => {
   const { ingredients } = req.query;
 
   if (!ingredients) {
@@ -19,9 +22,11 @@ export default async function handler(req, res) {
       }
     );
 
-    res.status(200).json(response.data); // ✅ Spoonacular returns an array
+    res.status(200).json(response.data);
   } catch (error) {
     console.error('Spoonacular error:', error.message);
     res.status(500).json({ error: 'Failed to fetch recipes' });
   }
-}
+});
+
+export default router;
